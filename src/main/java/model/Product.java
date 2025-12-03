@@ -1,5 +1,7 @@
 package model;
 
+import java.util.*;
+
 public class Product {
 
 	public Product() {}
@@ -9,7 +11,9 @@ public class Product {
     private double price;
     private String description;
     private String category;
-
+    private List<ProductVariant> variants; 
+    private List<ProductImage> images;
+    
     public Product(int id, String name, double price, String description, String category) {
         this.id = id;
         this.name = name;
@@ -57,6 +61,20 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
+    public List<ProductVariant> getVariants() {
+        return variants;
+    }
 
+    public void setVariants(List<ProductVariant> variants) {
+        this.variants = variants;
+    }
+
+    public List<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImage> images) {
+        this.images = images;
+    }
 
 }

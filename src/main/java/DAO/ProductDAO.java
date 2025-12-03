@@ -1,8 +1,10 @@
 package DAO;
 
 import java.sql.*;
+import java.util.List;
+
 import util.*;
-import model.Product;
+import model.*;
 
 public class ProductDAO {
 
@@ -62,10 +64,25 @@ public class ProductDAO {
     }
 
     // 查詢商品 + 尺寸變體 + 圖片（完整）
-   
+    public Product findDetailById(int id) {
+        Product product = findById(id);
+        if (product == null) return null;
+
+        // 取得變體
+        ProductVariantDAO variantDAO = new ProductVariantDAO();
+        List<ProductVariant> variants = variantDAO.findByProductId(id);
+        product.setVariants(variants);
+
+        // 取得圖片
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        List<ProductImage> images = imageDAO.findByProductId(id);
+        product.setImages(images);
+
+        return product;
+    }
     // 更新商品
     public boolean update(Product p) {
-        String sql = "UPDATE product SET name=?, description=?, price=?, category_id=? WHERE id=?";
+        String sql = "UPDATE product SET name=?, description=?, price=?, category=? WHERE id=?";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -86,6 +103,11 @@ public class ProductDAO {
 
     // 刪除商品
     public boolean delete(int id) {
+    	
+    	ProductVariantDAO variantDAO = new ProductVariantDAO();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        variantDAO.deleteByProductId(id); 
+        imageDAO.deleteByProductId(id);
         String sql = "DELETE FROM product WHERE id=?";
 
         try (Connection conn = DBUtil.getConnection();

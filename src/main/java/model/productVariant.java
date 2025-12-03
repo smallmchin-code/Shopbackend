@@ -1,14 +1,14 @@
 package model;
 
-public class productVariant {
+public class ProductVariant {
 
-	public productVariant() {}
+	public ProductVariant() {}
+	
 	private int id;
 	private int productId;
 	private String size;
 	private int stock;
-	public productVariant(int id, int productId, String size, int stock) {
-		super();
+	public ProductVariant(int id, int productId, String size, int stock) {
 		this.id = id;
 		this.productId = productId;
 		this.size = size;
@@ -39,5 +39,7 @@ public class productVariant {
 		this.stock = stock;
 	}
 	
+
+
 
 }

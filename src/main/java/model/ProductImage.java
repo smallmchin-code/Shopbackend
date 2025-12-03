@@ -5,12 +5,12 @@ public class ProductImage {
 	public ProductImage() {}
 	
 	private int id;
-	private long imageData;
+	private byte[] imageData;
 	private int productId;
 	private boolean isMain;
 	
 	
-	public ProductImage(int id, long imageData, int productId, boolean isMain) {
+	public ProductImage(int id, byte[] imageData, int productId, boolean isMain) {
 		this.id = id;
 		this.imageData = imageData;
 		this.productId = productId;
@@ -22,10 +22,10 @@ public class ProductImage {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getImageData() {
+	public byte[] getImageData() {
 		return imageData;
 	}
-	public void setImageData(long imageData) {
+	public void setImageData(byte[] imageData) {
 		this.imageData = imageData;
 	}
 	public int getProductId() {
