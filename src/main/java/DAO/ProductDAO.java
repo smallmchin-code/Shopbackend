@@ -11,7 +11,7 @@ public class ProductDAO {
 	public ProductDAO() {}
 	
 	public int insert(Product p) {
-        String sql = "INSERT INTO product (name, description, price, category) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO products (name, description, price, category) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -37,7 +37,7 @@ public class ProductDAO {
 
     // 查詢單一商品（不含 variant / image）
     public Product findById(int id) {
-        String sql = "SELECT * FROM product WHERE id = ?";
+        String sql = "SELECT * FROM products WHERE id = ?";
         Product product = null;
 
         try (Connection conn = DBUtil.getConnection();
@@ -82,7 +82,7 @@ public class ProductDAO {
     }
     // 更新商品
     public boolean update(Product p) {
-        String sql = "UPDATE product SET name=?, description=?, price=?, category=? WHERE id=?";
+        String sql = "UPDATE products SET name=?, description=?, price=?, category=? WHERE id=?";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -108,7 +108,7 @@ public class ProductDAO {
         ProductImageDAO imageDAO = new ProductImageDAO();
         variantDAO.deleteByProductId(id); 
         imageDAO.deleteByProductId(id);
-        String sql = "DELETE FROM product WHERE id=?";
+        String sql = "DELETE FROM products WHERE id=?";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
