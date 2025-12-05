@@ -8,13 +8,14 @@ import model.*;
 
 public class ProductDAO {
 
-	public ProductDAO() {}
-	
-	public int insert(Product p) {
+    public ProductDAO() {
+    }
+
+    public int insert(Product p) {
         String sql = "INSERT INTO products (name, description, price, category) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getDescription());
@@ -41,19 +42,18 @@ public class ProductDAO {
         Product product = null;
 
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 product = new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getString("description"),
-                    rs.getString("category")
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getString("description"),
+                        rs.getString("category"));
             }
 
         } catch (Exception e) {
@@ -66,7 +66,8 @@ public class ProductDAO {
     // 查詢商品 + 尺寸變體 + 圖片（完整）
     public Product findDetailById(int id) {
         Product product = findById(id);
-        if (product == null) return null;
+        if (product == null)
+            return null;
 
         // 取得變體
         ProductVariantDAO variantDAO = new ProductVariantDAO();
@@ -80,12 +81,13 @@ public class ProductDAO {
 
         return product;
     }
+
     // 更新商品
     public boolean update(Product p) {
         String sql = "UPDATE products SET name=?, description=?, price=?, category=? WHERE id=?";
 
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getDescription());
@@ -103,15 +105,15 @@ public class ProductDAO {
 
     // 刪除商品
     public boolean delete(int id) {
-    	
-    	ProductVariantDAO variantDAO = new ProductVariantDAO();
+
+        ProductVariantDAO variantDAO = new ProductVariantDAO();
         ProductImageDAO imageDAO = new ProductImageDAO();
-        variantDAO.deleteByProductId(id); 
+        variantDAO.deleteByProductId(id);
         imageDAO.deleteByProductId(id);
         String sql = "DELETE FROM products WHERE id=?";
 
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
@@ -121,6 +123,5 @@ public class ProductDAO {
         }
         return false;
     }
-
 
 }
